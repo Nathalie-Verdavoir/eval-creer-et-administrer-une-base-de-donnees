@@ -144,3 +144,20 @@ INSERT INTO salles (numéro_de_salle, nb_total_de_places)
  (1, 250); -- une salle non attachée à un cinema renvoie une erreur
 
 */
+
+/*-----------TABLE TOUS LES TARIFS------------------------------------------------------------------------------*/
+/* crée la table des tarifs */
+CREATE TABLE tarifs
+(
+    id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    nom VARCHAR(100),
+    montant DECIMAL(18, 2)
+) ENGINE = InnoDB;
+
+/* insert les données dans la table TARIFS */
+INSERT INTO tarifs (nom, montant)
+ VALUES
+ ('Plein Tarif',9.20),
+ ('Étudiant', 7.60),
+ ('Moins de 14 ans', 5.90);
+
