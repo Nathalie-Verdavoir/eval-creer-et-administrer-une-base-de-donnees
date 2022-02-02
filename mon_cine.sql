@@ -65,10 +65,10 @@ CREATE TABLE employes
 INSERT INTO employes (nom, prenom, date_de_naissance, adresse, telephone, mail, role, password)
  VALUES
  ('Doe', 'John', '801203', '15 rue Alfred Tarantino', '01.23.45.76.98', 'admin@cinema.fr', 'admin', '$2y$10$o8za0K8NDjBKP9ZJ/LHpBetB5JagFpQ3EUYyBAwFh8y03O6gH/UyW'),
- ('Dupontel', 'Michel', '920214', '21 rue Quentin Lynch', '01.12.45.76.98', 'paris@cinema.fr', 'vendeur', '$2y$10$E3HgXokKT6xrhfY1t.7Xf.zeJm.usQre1mw01cJBo5cTUs87Dc7ze'),
- ('Gabin', 'Julien', '850331', '21 rue Quentin Tarantino', '03.12.45.76.98', 'lille@cinema.fr', 'vendeur', '$2y$10$vDNMDO4YjRAN8IeQm3q.k.ZuNf/U8uwHh4mqDKD1wCYT4IOFFjF3W'),
- ('Monroe', 'Marie', '011120', '4 rue David Kubrik', '04.12.35.76.98', 'marseille@cinema.fr', 'vendeur', '$2y$10$wavr2j.udShBC2sByNn6dOQlm4Rcxn7QqMsuo6ojh6BaP04F/M5q2'),
- ('Signoret', 'Simon', '990227', '3 rue Stanley Kubrik', '05.12.34.76.98', 'toulouse@cinema.fr', 'vendeur', '$2y$10$4lwN7YyIWyi95KJ/ehnShOlZ70OfPZiSA/jq9It4vtaf1xooUE.LO');
+ ('Dupontel', 'Michel', '920214', '21 rue Quentin Lynch', '01.12.45.76.98', 'paris@cinema.fr', 'vendeurs', '$2y$10$E3HgXokKT6xrhfY1t.7Xf.zeJm.usQre1mw01cJBo5cTUs87Dc7ze'),
+ ('Gabin', 'Julien', '850331', '21 rue Quentin Tarantino', '03.12.45.76.98', 'lille@cinema.fr', 'vendeurs', '$2y$10$E3HgXokKT6xrhfY1t.7Xf.zeJm.usQre1mw01cJBo5cTUs87Dc7ze'),
+ ('Monroe', 'Marie', '011120', '4 rue David Kubrik', '04.12.35.76.98', 'marseille@cinema.fr', 'vendeurs', '$2y$10$E3HgXokKT6xrhfY1t.7Xf.zeJm.usQre1mw01cJBo5cTUs87Dc7ze'),
+ ('Signoret', 'Simon', '990227', '3 rue Stanley Kubrik', '05.12.34.76.98', 'toulouse@cinema.fr', 'vendeurs', '$2y$10$E3HgXokKT6xrhfY1t.7Xf.zeJm.usQre1mw01cJBo5cTUs87Dc7ze');
 
 
 /*-----------TABLE TOUS LES CINEMAS------------------------------------------------------------------------------*/
@@ -260,3 +260,31 @@ CALL Acheter_des_billets( 4, 1, 0 , 0);
 CALL Acheter_des_billets( 5, 0, 1 , 0);
 CALL Acheter_des_billets( 6, 0, 0 , 1);
 
+
+
+/*//////////// LIGNES DE COMMANDES SUPPLEMENTAIRES ////////////*/
+/* commande sauvegarde bdd--------------------------------------------------------------------------------
+mysqldump -u root -p --databases mon_cine > dump_mon_cine_bdd.sql
+ */
+
+ /* commande restauration bdd--------------------------------------------------------------------------------
+mysql -u root -p mon_cine < dump_mon_cine_bdd.sql
+ */
+
+/* commande creation utilisateur--------------------------------------------------------------------------
+   CREATE USER 'admin'@'localhost' IDENTIFIED BY '$2y$10$o8za0K8NDjBKP9ZJ/LHpBetB5JagFpQ3EUYyBAwFh8y03O6gH/UyW';
+   
+   CREATE USER 'vendeurs'@'localhost' IDENTIFIED BY '$2y$10$E3HgXokKT6xrhfY1t.7Xf.zeJm.usQre1mw01cJBo5cTUs87Dc7ze';
+
+ */
+
+/* parametrer les privilieges utilisateurs------------------------------------------------------------
+   -----------------tous les droits (lecture/ecriture) pour l'admin------------------------------------
+   GRANT ALL PRIVILEGES ON mon_cine.* TO 'admin'@'localhost';
+   FLUSH PRIVILEGES
+
+   -----------------les droits de lecture pour les vendeurs------------------------------------------------------
+   GRANT SELECT ON mon_cine.* TO 'vendeurs'@'localhost';
+   FLUSH PRIVILEGES
+
+ */
