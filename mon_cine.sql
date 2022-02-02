@@ -161,3 +161,48 @@ INSERT INTO tarifs (nom, montant)
  ('Étudiant', 7.60),
  ('Moins de 14 ans', 5.90);
 
+
+
+ /*-----------TABLE des SEANCES------------------------------------------------------------------------------*/
+/* crée la table de toutes les seances */
+CREATE TABLE seances
+(
+    id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    horaire DATETIME NOT NULL,
+    film_id INT NOT NULL,
+    salle_id INT NOT NULL,
+    nb_places_disponibles INT,
+  CONSTRAINT `erreur_film_id`
+    FOREIGN KEY (film_id) REFERENCES films(id)
+    ON DELETE CASCADE
+    ON UPDATE RESTRICT,
+  CONSTRAINT `erreur_salle_id`
+    FOREIGN KEY (salle_id) REFERENCES salles(id)
+    ON DELETE CASCADE
+    ON UPDATE RESTRICT
+) ENGINE = InnoDB;
+
+/* fonction pour générer le nb_places_disponibles en prenant le nb_de_place de la salle */
+DELIMITER $$
+
+CREATE FUNCTION Get_nb_total_de_places ( salle_id INT)
+RETURNS INT
+
+BEGIN
+  SELECT nb_total_de_places into @nb_total_de_places FROM mon_cine.salles WHERE id=salle_id;
+  RETURN  @nb_total_de_places;
+END;
+$$
+DELIMITER ;
+
+
+/* insert les données dans la table seances */
+INSERT INTO seances (horaire,film_id,salle_id,nb_places_disponibles)
+ VALUES
+    ('2022-12-01 20:30:00',1,1,Get_nb_total_de_places( salle_id)),
+    ('2022-12-02 20:30:00',2,2,Get_nb_total_de_places( salle_id)),
+    ('2022-12-03 20:30:00',3,3,Get_nb_total_de_places( salle_id)),
+    ('2022-12-04 20:30:00',4,4,Get_nb_total_de_places( salle_id)),
+    ('2022-12-05 20:30:00',5,5,Get_nb_total_de_places( salle_id)),
+    ('2022-12-06 20:30:00',6,6,Get_nb_total_de_places( salle_id));
+
