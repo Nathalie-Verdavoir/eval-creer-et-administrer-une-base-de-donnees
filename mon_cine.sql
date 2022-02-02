@@ -46,3 +46,27 @@ INSERT INTO films (titre,realisateur,duree)
 ('RV', 'Jodi Dorgon', '01:40');
 
 
+/*-----------TABLE TOUTES LES EMPLOYES------------------------------------------------------------------------------*/
+/* crée la table des employes avec leurs droits */
+CREATE TABLE employes
+(
+    id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    nom VARCHAR(30) NOT NULL,
+    prenom VARCHAR(30) NOT NULL,
+    date_de_naissance DATE,
+    role VARCHAR(10) NOT NULL,
+    password VARCHAR(60) NOT NULL,
+    adresse VARCHAR(100),
+    telephone VARCHAR(14),
+    mail VARCHAR(40)
+) ENGINE = InnoDB;
+
+/* insert les employés avec leur role */
+INSERT INTO employes (nom, prenom, date_de_naissance, adresse, telephone, mail, role, password)
+ VALUES
+ ('Doe', 'John', '801203', '15 rue Alfred Tarantino', '01.23.45.76.98', 'admin@cinema.fr', 'admin', '$2y$10$o8za0K8NDjBKP9ZJ/LHpBetB5JagFpQ3EUYyBAwFh8y03O6gH/UyW'),
+ ('Dupontel', 'Michel', '920214', '21 rue Quentin Lynch', '01.12.45.76.98', 'paris@cinema.fr', 'vendeur', '$2y$10$E3HgXokKT6xrhfY1t.7Xf.zeJm.usQre1mw01cJBo5cTUs87Dc7ze'),
+ ('Gabin', 'Julien', '850331', '21 rue Quentin Tarantino', '03.12.45.76.98', 'lille@cinema.fr', 'vendeur', '$2y$10$vDNMDO4YjRAN8IeQm3q.k.ZuNf/U8uwHh4mqDKD1wCYT4IOFFjF3W'),
+ ('Monroe', 'Marie', '011120', '4 rue David Kubrik', '04.12.35.76.98', 'marseille@cinema.fr', 'vendeur', '$2y$10$wavr2j.udShBC2sByNn6dOQlm4Rcxn7QqMsuo6ojh6BaP04F/M5q2'),
+ ('Signoret', 'Simon', '990227', '3 rue Stanley Kubrik', '05.12.34.76.98', 'toulouse@cinema.fr', 'vendeur', '$2y$10$4lwN7YyIWyi95KJ/ehnShOlZ70OfPZiSA/jq9It4vtaf1xooUE.LO');
+
