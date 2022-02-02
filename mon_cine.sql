@@ -15,7 +15,7 @@ USE mon_cine;
 CREATE TABLE films
 (
     id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    titre VARCHAR(100),
+    titre VARCHAR(100)  NOT NULL,
     realisateur VARCHAR(100),
     duree TIME,
     montant_total_des_billets_vendus DECIMAL(10,2) NOT NULL DEFAULT 0
@@ -76,8 +76,8 @@ INSERT INTO employes (nom, prenom, date_de_naissance, adresse, telephone, mail, 
 CREATE TABLE cinemas
 (
     id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    ville VARCHAR(30),
-    nb_salles INT,
+    ville VARCHAR(30) NOT NULL,
+    nb_salles INT NOT NULL,
     adresse VARCHAR(100),
     telephone VARCHAR(14),
     mail VARCHAR(40),
@@ -103,7 +103,7 @@ CREATE TABLE salles
 (
     id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
     numero_de_salle INT,
-    nb_total_de_places INT,
+    nb_total_de_places INT NOT NULL,
     cinema_id INT NOT NULL,
   CONSTRAINT `erreur_salle_sans_cinema`
     FOREIGN KEY (cinema_id) REFERENCES cinemas(id)
@@ -150,8 +150,8 @@ INSERT INTO salles (numéro_de_salle, nb_total_de_places)
 CREATE TABLE tarifs
 (
     id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    nom VARCHAR(100),
-    montant DECIMAL(18, 2)
+    nom VARCHAR(100) NOT NULL,
+    montant DECIMAL(18, 2) NOT NULL
 ) ENGINE = InnoDB;
 
 /* insert les données dans la table TARIFS */
