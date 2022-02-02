@@ -70,3 +70,28 @@ INSERT INTO employes (nom, prenom, date_de_naissance, adresse, telephone, mail, 
  ('Monroe', 'Marie', '011120', '4 rue David Kubrik', '04.12.35.76.98', 'marseille@cinema.fr', 'vendeur', '$2y$10$wavr2j.udShBC2sByNn6dOQlm4Rcxn7QqMsuo6ojh6BaP04F/M5q2'),
  ('Signoret', 'Simon', '990227', '3 rue Stanley Kubrik', '05.12.34.76.98', 'toulouse@cinema.fr', 'vendeur', '$2y$10$4lwN7YyIWyi95KJ/ehnShOlZ70OfPZiSA/jq9It4vtaf1xooUE.LO');
 
+
+/*-----------TABLE TOUS LES CINEMAS------------------------------------------------------------------------------*/
+/* crée la table cinemas avec colonnes id, ville, nb_salles */
+CREATE TABLE cinemas
+(
+    id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    ville VARCHAR(30),
+    nb_salles INT,
+    adresse VARCHAR(100),
+    telephone VARCHAR(14),
+    mail VARCHAR(40),
+    responsable_id INT DEFAULT 1,
+   CONSTRAINT `erreur_responsable`
+    FOREIGN KEY (responsable_id) REFERENCES employes(id)
+    ON DELETE SET NULL
+    ON UPDATE RESTRICT
+) ENGINE = InnoDB;
+
+/* insert les données dans la table cinémas */
+INSERT INTO cinemas (ville, nb_salles, adresse, telephone, mail, responsable_id)
+ VALUES
+ ('PARIS', '7', '8 rue Alfred Hitchcock', '01.23.45.67.89', 'paris@cinema.fr', 2),
+ ('LILLE', '6', '7 rue Quentin Tarantino', '03.12.45.67.89', 'lille@cinema.fr', 3),
+ ('MARSEILLE', '3', '4 rue David Lynch', '04.12.35.67.89', 'marseille@cinema.fr', 4),
+ ('TOULOUSE', '2', '3 rue Stanley Kubrik', '05.12.34.67.89', 'toulouse@cinema.fr', 5);
