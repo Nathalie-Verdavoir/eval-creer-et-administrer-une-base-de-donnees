@@ -95,3 +95,52 @@ INSERT INTO cinemas (ville, nb_salles, adresse, telephone, mail, responsable_id)
  ('LILLE', '6', '7 rue Quentin Tarantino', '03.12.45.67.89', 'lille@cinema.fr', 3),
  ('MARSEILLE', '3', '4 rue David Lynch', '04.12.35.67.89', 'marseille@cinema.fr', 4),
  ('TOULOUSE', '2', '3 rue Stanley Kubrik', '05.12.34.67.89', 'toulouse@cinema.fr', 5);
+
+
+ /*-----------TABLE TOUTES LES SALLES------------------------------------------------------------------------------*/
+/* crée la table pour un cinéma en fonction de son nombre de salle */
+CREATE TABLE salles
+(
+    id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    numero_de_salle INT,
+    nb_total_de_places INT,
+    cinema_id INT NOT NULL,
+  CONSTRAINT `erreur_salle_sans_cinema`
+    FOREIGN KEY (cinema_id) REFERENCES cinemas(id)
+    ON DELETE CASCADE
+    ON UPDATE RESTRICT
+) ENGINE = InnoDB;
+
+/* insert les données dans la table SALLES */
+INSERT INTO salles (numero_de_salle, nb_total_de_places, cinema_id)
+ VALUES
+ (1, 250, 1),
+ (2, 240, 1),
+ (3, 140, 1),
+ (4, 140, 1),
+ (5, 140, 1),
+ (6, 120, 1),
+ (7, 120, 1),
+ (1, 250, 2),
+ (2, 220, 2),
+ (3, 210, 2),
+ (4, 120, 2),
+ (5, 120, 2),
+ (6, 120, 2),
+ (1, 250, 3),
+ (2, 220, 3),
+ (3, 110, 3),
+ (1, 150, 4),
+ (2, 120, 4);
+
+/* exemples d'insertion qui créent une erreur */
+/*
+INSERT INTO salles (numéro_de_salle, nb_total_de_places, cinema_id)
+ VALUES
+ (1, 250,18); -- le cinema d'id 18 n'existe pas dans les exemples et renvoie une erreur
+
+INSERT INTO salles (numéro_de_salle, nb_total_de_places)
+ VALUES
+ (1, 250); -- une salle non attachée à un cinema renvoie une erreur
+
+*/
