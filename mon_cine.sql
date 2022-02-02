@@ -206,3 +206,57 @@ INSERT INTO seances (horaire,film_id,salle_id,nb_places_disponibles)
     ('2022-12-05 20:30:00',5,5,Get_nb_total_de_places( salle_id)),
     ('2022-12-06 20:30:00',6,6,Get_nb_total_de_places( salle_id));
 
+
+ /*-----------TABLE des BILLETS------------------------------------------------------------------------------------*/
+/* crée la table de tous les BILLETS VENDUS */
+
+CREATE TABLE billets
+(
+    id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    seance_id INT NOT NULL,
+    nb_de_tarif_1 INT NOT NULL DEFAULT 0,
+    nb_de_tarif_2 INT NOT NULL DEFAULT 0,
+    nb_de_tarif_3 INT NOT NULL DEFAULT 0,
+  CONSTRAINT `erreur_seance`
+    FOREIGN KEY (seance_id) REFERENCES seances(id)
+    ON DELETE CASCADE
+    ON UPDATE RESTRICT
+) ENGINE = InnoDB;
+
+/* PROCEDURE pour générer un achat de billets */
+DELIMITER $$
+
+CREATE PROCEDURE Acheter_des_billets ( billet_seance_id INT, billet_nb_de_tarif_1 INT, billet_nb_de_tarif_2 INT , billet_nb_de_tarif_3 INT)
+
+BEGIN
+     /* ON VERIFIE SI L'ACHAT EST POSSIBLE/ SI IL RESTE ASSEZ DE PLACES DANS LA SEANCE */
+    IF (SELECT nb_places_disponibles from seances WHERE id=billet_seance_id) >= billet_nb_de_tarif_1 + billet_nb_de_tarif_2 + billet_nb_de_tarif_3
+     THEN
+            /* ON AJOUTE L'ACHAT A LA TABLE BILLET */
+            INSERT INTO billets (seance_id,nb_de_tarif_1,nb_de_tarif_2,nb_de_tarif_3)
+                     VALUES
+                        (billet_seance_id,billet_nb_de_tarif_1,billet_nb_de_tarif_2,billet_nb_de_tarif_3);
+
+            /* ON MET A JOUR LE NOMBRE DE PLACES DISPONIBLES POUR CETTE SEANCE */
+            UPDATE seances SET nb_places_disponibles =
+                                nb_places_disponibles - billet_nb_de_tarif_1 - billet_nb_de_tarif_2 - billet_nb_de_tarif_3
+                WHERE id=billet_seance_id;
+
+            /* ON MET A JOUR LE NOMBRE DE PLACES VENDUES POUR CE FILM */
+            UPDATE films SET montant_total_des_billets_vendus =
+                            montant_total_des_billets_vendus + billet_nb_de_tarif_1*(select montant FROM tarifs WHERE id=1) + billet_nb_de_tarif_2*(select montant FROM tarifs WHERE id=2) + billet_nb_de_tarif_3*(select montant FROM tarifs WHERE id=3)
+                  WHERE id=(select film_id FROM seances WHERE id=billet_seance_id);
+
+    END IF;
+END;
+$$
+DELIMITER ;
+
+
+CALL Acheter_des_billets( 1, 3, 1 , 0);
+CALL Acheter_des_billets( 2, 3, 1 , 1);
+CALL Acheter_des_billets( 3, 2, 1 , 0);
+CALL Acheter_des_billets( 4, 1, 0 , 0);
+CALL Acheter_des_billets( 5, 0, 1 , 0);
+CALL Acheter_des_billets( 6, 0, 0 , 1);
+
